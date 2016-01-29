@@ -1,0 +1,65 @@
+<template name="appBody">
+  {{! other option: navbar-static-top}}
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed"
+            data-toggle="collapse" data-target="#workbench-navbar-collapse"
+            aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{{pathFor "history"}}">MedBook</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="workbench-navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="{{isActiveRoute "messageManager"}}">
+            <a href="{{pathFor "messageManager"}}">
+              messageManager
+            </a>
+          </li>
+          <li class="{{isActiveRoute "contacts"}}">
+            <a href="{{pathFor "contacts"}}">
+              Contacts
+            </a>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            {{> loginButtons}}
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div>
+  </nav>
+
+  <div class="container-fluid" style="margin-top: 50px;">
+    {{#if currentUser}}
+      <div id="logged-in">
+        {{>Template.dynamic template=content}}
+      </div>
+    {{else}}
+      {{#if loggingIn}}
+        <div class="jumbotron down-from-navbar">
+          <h1>Logging in...</h1>
+          <p>
+            Workbench will be ready soon!
+          </p>
+        </div>
+      {{else}}
+        <div class="jumbotron down-from-navbar">
+          <h1>You're not logged in!</h1>
+          <p>
+            Please log in to continue.
+          </p>
+        </div>
+      {{/if}}
+    {{/if}}
+  </div>
+</template>
