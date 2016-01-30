@@ -46,7 +46,7 @@ Meteor.methods({
         messageBody = message.spanish_message;
       }
 
-      console.log('Sending "' + messageBody + ' to ' + contact.name +
+      console.log('Sending "' + messageBody + '" to ' + contact.name +
           ' at ' + contact.phone_number);
 
       var deferred = Q.defer();
@@ -84,7 +84,10 @@ Meteor.methods({
         Contacts.update(contactId, {
           $addToSet: {
             messages_sent: messageId
-          }
+          },
+          $inc: {
+            messages_sent_count: 1,
+          },
         });
       });
       console.log("sent all texts");

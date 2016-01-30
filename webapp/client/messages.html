@@ -76,7 +76,13 @@
                 {{/if}}
               </p>
               {{#if failed_contacts_count}}
-                <p class="list-group-item-text">Sending failed to {{failed_contacts_count}} contacts</p>
+                <p class="list-group-item-text">
+                  Sending failed to {{failed_contacts_count}} contacts.
+                  <a href="mailto:mokolodi1@gmail.com?Subject=Sending to a contact on SMSr failed"
+                      type="button" class="btn btn-primary btn-xs">
+                    Email Teo
+                  </a>
+                </p>
               {{/if}}
             {{/if}}
           </div>

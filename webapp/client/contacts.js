@@ -16,6 +16,21 @@ Template.showContact.onCreated(function () {
 
   instance.editing = new ReactiveVar(false);
   instance.deleteClicked = new ReactiveVar(false);
+  instance.errorsEditing = new ReactiveVar(false);
+
+  var hooksObject = {};
+  hooksObject[instance.data._id] = {
+    // Called when any submit operation succeeds
+    onSuccess: function(formType, result) {
+      instance.errorsEditing.set(false);
+    },
+    // Called when any submit operation fails
+    onError: function(formType, error) {
+      instance.errorsEditing.set(true);
+    },
+  };
+
+  AutoForm.hooks(hooksObject);
 });
 
 Template.showContact.helpers({
@@ -25,16 +40,21 @@ Template.showContact.helpers({
     }
     return "list-group-item-danger";
   },
+  getDoc: function () {
+    return Template.currentData();
+  },
+  Contacts,
+
+  // ReactiveVars
   editing: function () {
     return Template.instance().editing.get();
   },
   deleteClicked: function () {
     return Template.instance().deleteClicked.get();
   },
-  getDoc: function () {
-    return Template.currentData();
-  },
-  Contacts,
+  errorsEditing: function () {
+    return Template.instance().errorsEditing.get();
+  }
 });
 
 Template.showContact.events({
@@ -42,6 +62,7 @@ Template.showContact.events({
     var editing = Template.instance().editing;
 
     editing.set(!editing.get());
+    Template.instance().errorsEditing.set(false);
   },
   "click .notifications-toggle": function (event, instance) {
     // !!! means the opposite but boolean

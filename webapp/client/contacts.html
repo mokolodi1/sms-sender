@@ -39,8 +39,13 @@
       <span class="pull-right">
         <button class="toggle-editing btn btn-xs btn-primary">
           {{#if editing}}
-            <span class="glyphicon glyphicon-check"></span>
-            <span>Done editing</span>
+            {{#if errorsEditing}}
+              <span class="glyphicon glyphicon-remove"></span>
+              <span>Cancel editing</span>
+            {{else}}
+              <span class="glyphicon glyphicon-check"></span>
+              <span>Done editing</span>
+            {{/if}}
           {{else}}
             <span class="glyphicon glyphicon-edit"></span>
             <span>Edit</span>
@@ -73,7 +78,7 @@
 
     {{#if editing}}
       <hr>
-      {{#autoForm id="afUpdateDemo" type="update" collection=Contacts
+      {{#autoForm id=_id type="update" collection=Contacts
           doc=this autosave=true}}
         {{> contactFields}}
       {{/autoForm}}
