@@ -15,6 +15,7 @@ Template.showContact.onCreated(function () {
   var instance = this;
 
   instance.editing = new ReactiveVar(false);
+  instance.deleteClicked = new ReactiveVar(false);
 });
 
 Template.showContact.helpers({
@@ -27,6 +28,13 @@ Template.showContact.helpers({
   editing: function () {
     return Template.instance().editing.get();
   },
+  deleteClicked: function () {
+    return Template.instance().deleteClicked.get();
+  },
+  getDoc: function () {
+    return Template.currentData();
+  },
+  Contacts,
 });
 
 Template.showContact.events({
@@ -44,6 +52,18 @@ Template.showContact.events({
     });
   },
   "click .remove-contact": function (event, instance) {
-    Contacts.remove(instance.data._id);
+    var deleteClicked = instance.deleteClicked;
+    if (deleteClicked.get()) {
+      Contacts.remove(instance.data._id);
+    } else {
+      deleteClicked.set(true);
+
+      // wait until propogation finishes before registering event
+      Meteor.defer(function () {
+        $("html").one("click",function() {
+          deleteClicked.set(false);
+        });
+      });
+    }
   },
 });

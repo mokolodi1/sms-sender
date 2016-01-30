@@ -3,10 +3,7 @@
 
   <h3>Create new</h3>
   {{#autoForm id="insertMessage" type="insert" collection=Contacts}}
-    {{> horizontalField name="name"}}
-    {{> horizontalField name="phone_number"}}
-    {{> horizontalField name="preferred_language" options="allowed"
-        firstOption="(Select a preferred language)"}}
+    {{> contactFields}}
     <div class="form-group">
       <button type="submit" onclick="return true;//confirm('Are you sure?')"
           class="btn btn-primary">Add contact</button>
@@ -28,6 +25,13 @@
   {{/if}}
 </template>
 
+<template name="contactFields">
+  {{> horizontalField name="name"}}
+  {{> horizontalField name="phone_number"}}
+  {{> horizontalField name="preferred_language" options="allowed"
+      firstOption="(Select a preferred language)"}}
+</template>
+
 <template name="showContact">
   <div class="list-group-item {{listGroupItemClass}} {{active}}">
     <h4 class="list-group-item-heading">
@@ -35,8 +39,8 @@
       <span class="pull-right">
         <button class="toggle-editing btn btn-xs btn-primary">
           {{#if editing}}
-            <span class="glyphicon glyphicon-remove"></span>
-            <span>Cancel editing</span>
+            <span class="glyphicon glyphicon-check"></span>
+            <span>Done editing</span>
           {{else}}
             <span class="glyphicon glyphicon-edit"></span>
             <span>Edit</span>
@@ -53,12 +57,26 @@
         </button>
         <button class="remove-contact btn btn-xs btn-danger">
           <span class="glyphicon glyphicon-trash"></span>
-          <span>Delete</span>
+          <span>
+            {{#if deleteClicked}}
+              Really delete?
+            {{else}}
+              Delete
+            {{/if}}
+          </span>
         </button>
       </span>
     </h4>
     <p class="list-group-item-text">Phone number: {{phone_number}}</p>
     <p class="list-group-item-text">Preferred language: {{preferred_language}}</p>
     <p class="list-group-item-text">Messages sent: {{messages_sent_count}}</p>
+
+    {{#if editing}}
+      <hr>
+      {{#autoForm id="afUpdateDemo" type="update" collection=Contacts
+          doc=this autosave=true}}
+        {{> contactFields}}
+      {{/autoForm}}
+    {{/if}}
   </div>
 </template>

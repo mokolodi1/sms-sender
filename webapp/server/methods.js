@@ -32,9 +32,7 @@ Meteor.methods({
     var sent_contacts = [];
     var failed_contacts = [];
     var twilioPromises = [];
-    Contacts.find({}).forEach(function (contact) {
-      console.log("contact:", contact);
-
+    filteredContacts(message.tag).forEach(function (contact) {
       var messageBody;
       if (contact.preferred_language === "English") {
         messageBody = message.english_message;

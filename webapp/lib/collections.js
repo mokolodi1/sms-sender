@@ -17,7 +17,11 @@ function dateModifiedAutoValue () {
 
 function lengthOfArray (fieldName) {
   var array = this.field(fieldName).value;
+
   if (array) {
+    if (typeof array !== "object") {
+      array = [array];
+    }
     return array.length;
   } else {
     this.unset();
