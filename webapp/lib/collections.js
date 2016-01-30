@@ -28,7 +28,7 @@ Messages = new Meteor.Collection("messages");
 Messages.attachSchema(new SimpleSchema({
   english_message: { type: String },
   spanish_message: { type: String },
-  tag: { type: String, optional: true },
+  group: { type: String, optional: true },
 
   date_created: { type: Date, autoValue: dateCreatedAutoValue },
 
@@ -57,13 +57,13 @@ Messages.attachSchema(new SimpleSchema({
 }));
 
 SimpleSchema.messages({
-  "invalidPhoneNumber": "Invalid phone number",
+  invalidPhoneNumber: "Invalid phone number",
   wrongCountryCode: "Only US numbers (+1) are supported",
+  groupAlreadyExists: "Group already exists",
 });
 
 function getNumbers (uglyText) {
   return uglyText.replace(/\D/g, "");
-
 }
 
 Contacts = new Meteor.Collection("contacts");
@@ -75,9 +75,7 @@ Contacts.attachSchema(new SimpleSchema({
   phone_number: {
     type: String,
     custom: function () {
-      console.log("this.value:", this.value);
       var onlyNumbers = getNumbers(this.value);
-      console.log("onlyNumbers:", onlyNumbers);
       if (onlyNumbers.length === 11) {
         if (onlyNumbers[0] !== "1") {
           return "wrongCountryCode";
@@ -101,7 +99,6 @@ Contacts.attachSchema(new SimpleSchema({
         var areaCode = onlyNumbers.slice(0, 3);
         var secondThree = onlyNumbers.slice(3, 6);
         var lastThree = onlyNumbers.slice(6, 10);
-        console.log("areaCode, secondThree, lastThree:", areaCode, secondThree, lastThree);
         return "+1 (" + areaCode + ") " + secondThree + "-" + lastThree;
       }
     },
@@ -113,7 +110,7 @@ Contacts.attachSchema(new SimpleSchema({
       "Spanish",
     ]
   },
-  tags: {
+  groups: {
     type: [String],
     defaultValue: [],
     optional: true,
@@ -129,7 +126,14 @@ Contacts.attachSchema(new SimpleSchema({
   notifications_active: { type: Boolean, defaultValue: true, optional: true },
 }));
 
-Tags = new Meteor.Collection("tags");
-Tags.attachSchema(new SimpleSchema({
-  name: { type: String },
+Groups = new Meteor.Collection("groups");
+Groups.attachSchema(new SimpleSchema({
+  name: {
+    type: String,
+    custom: function () {
+      if (Groups.findOne({name: this.value})) {
+        return "groupAlreadyExists";
+      }
+    },
+  },
 }));

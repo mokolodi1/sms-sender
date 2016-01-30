@@ -20,7 +20,7 @@ Template.messages.helpers({
     return Contacts.find({});
   },
   filteredContacts: function () {
-    return filteredContacts();
+    return filteredContacts(AutoForm.getFieldValue("group", "insertMessage"));
   },
   listGroupItemClass: function () {
     if (this.status === "sent") {
@@ -28,6 +28,14 @@ Template.messages.helpers({
     } else {
       return "list-group-item-info";
     }
+  },
+  groupOptions: function () {
+    return Groups.find({}).map(function (group) {
+      return {
+        label: group.name,
+        value: group.name,
+      };
+    });
   },
 });
 

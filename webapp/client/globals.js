@@ -6,8 +6,16 @@
 //   return "col-md-9 col-sm-8 col-xs-6";
 // });
 
-filteredContacts = function () {
-  return Contacts.find({
+filteredContacts = function (group) {
+  query = {
     notifications_active: true,
-  });
+  };
+
+  if (group) {
+    _.extend(query, {
+      groups: group
+    });
+  }
+
+  return Contacts.find(query);
 };

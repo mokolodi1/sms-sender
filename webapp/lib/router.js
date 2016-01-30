@@ -25,9 +25,9 @@ FlowRouter.route("/contacts", {
   }
 });
 
-FlowRouter.route("/tags", {
-  name: "tags",
+FlowRouter.route("/groups", {
+  name: "groups",
   action: function() {
-    BlazeLayout.render("appLayout", {content: "tags"});
+    BlazeLayout.render("appLayout", {content: "groups"});
   }
 });

@@ -9,6 +9,15 @@
             placeholder="English message"}}
         {{> horizontalField name="spanish_message" type="textarea" rows=2
             placeholder="Spanish message"}}
+        {{#if length groupOptions}}
+          {{> horizontalField name="group" type="select"
+              options=groupOptions firstOption="None (send to all contacts)"}}
+        {{else}}
+          <div class="well">
+            To send a message to a specific group of contacts, create
+            a group and then assign that group to some contacts.
+          </div>
+        {{/if}}
 
         {{#if length filteredContacts}}
           <div class="form-group">
@@ -25,8 +34,7 @@
         {{else}}
           <div class="alert alert-info" style="display: inline-block;">
             <p>
-              No contacts match the filter criteria.
-              If no tags are selected, maybe no contacts have notifications enabled.
+              No contacts with notifications enabled are in that group.
             </p>
             <p>
               <a href="{{pathFor "contacts"}}" class="btn btn-primary">Manage contacts</a>

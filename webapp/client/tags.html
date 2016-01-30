@@ -1,27 +1,42 @@
-<template name="tags">
-  <h1>Tags</h1>
+<template name="groups">
+  <h1>Groups</h1>
 
-  <h3>Create a tag</h3>
-  {{#autoForm id="createTag" type="insert" collection=Tags}}
+  <p>
+    When an SMS is sent to a specific person asjsdkfljskljdf dsf fsd sfd
+  </p>
+
+  <h3>Create a group</h3>
+  {{#autoForm id="createGroup" type="insert" collection=Groups}}
     {{> horizontalField name="name"}}
     <div class="form-group">
-      <button type="submit" class="btn btn-primary">Add tag</button>
+      <button type="submit" class="btn btn-primary">Add group</button>
       <button type="reset" class="btn btn-default">Reset form</button>
     </div>
   {{/autoForm}}
 
-  <h3>Tags</h3>
-  {{#if length getTags}}
+  <h3>Groups</h3>
+  {{#if length getGroups}}
     <div class="list-group">
-      {{#each getTags}}
-        <div class="list-group-item">
-          {{name}}
-        </div>
+      {{#each getGroups}}
+        {{> showGroup}}
       {{/each}}
     </div>
   {{else}}
     <div class="well">
-      No tags have been created.
+      No groups have been created.
     </div>
   {{/if}}
+</template>
+
+<template name="showGroup">
+  <div class="list-group-item">
+    {{name}}
+
+    <div class="pull-right">
+      <button class="remove-group btn btn-xs btn-warning">
+        <span class="glyphicon glyphicon-trash"></span>
+        <span>Remove</span>
+      </button>
+    </div>
+  </div>
 </template>

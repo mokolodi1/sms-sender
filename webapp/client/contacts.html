@@ -29,20 +29,32 @@
 </template>
 
 <template name="showContact">
-  <div class="list-group-item {{listGroupItemClass}}">
+  <div class="list-group-item {{listGroupItemClass}} {{active}}">
     <h4 class="list-group-item-heading">
       {{name}}
       <span class="pull-right">
-        {{#if notifications_active}}
-          <button class="notifications-toggle btn btn-xs btn-warning">
+        <button class="toggle-editing btn btn-xs btn-primary">
+          {{#if editing}}
+            <span class="glyphicon glyphicon-remove"></span>
+            <span>Cancel editing</span>
+          {{else}}
+            <span class="glyphicon glyphicon-edit"></span>
+            <span>Edit</span>
+          {{/if}}
+        </button>
+        <button class="notifications-toggle btn btn-xs btn-warning">
+          {{#if notifications_active}}
             <span class="glyphicon glyphicon-volume-up"></span>
-          </button>
-        {{else}}
-          <button class="notifications-toggle btn btn-xs btn-warning">
+            <span>Subscribed</span>
+          {{else}}
             <span class="glyphicon glyphicon-volume-off"></span>
-            <span>Muted</span>
-          </button>
-        {{/if}}
+            <span>Unsubscribed</span>
+          {{/if}}
+        </button>
+        <button class="remove-contact btn btn-xs btn-danger">
+          <span class="glyphicon glyphicon-trash"></span>
+          <span>Delete</span>
+        </button>
       </span>
     </h4>
     <p class="list-group-item-text">Phone number: {{phone_number}}</p>
