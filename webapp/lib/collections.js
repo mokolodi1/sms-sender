@@ -15,6 +15,15 @@ function dateModifiedAutoValue () {
   }
 }
 
+function lengthOfArray (fieldName) {
+  var array = this.field(fieldName).value;
+  console.log("array:", array);
+  if (array) {
+    return array.length;
+  } else {
+    this.unset();
+  }
+}
 
 Messages = new Meteor.Collection("messages");
 Messages.attachSchema(new SimpleSchema({
@@ -23,7 +32,6 @@ Messages.attachSchema(new SimpleSchema({
 
   date_created: { type: Date, autoValue: dateCreatedAutoValue },
 
-  recipient_count: { type: Number, optional: true },
   status: {
     type: String,
     defaultValue: "sending",
@@ -33,12 +41,25 @@ Messages.attachSchema(new SimpleSchema({
       "failed"
     ],
   },
+
+  sent_contacts: { type: [Meteor.ObjectID], optional: true },
+  sent_contacts_count: {
+    type: Number,
+    autoValue: _.partial(lengthOfArray, "sent_contacts"),
+    optional: true,
+  },
+  failed_contacts: { type: [Meteor.ObjectID], optional: true },
+  failed_contacts_count: {
+    type: Number,
+    autoValue: _.partial(lengthOfArray, "failed_contacts"),
+    optional: true,
+  },
 }));
 
 Contacts = new Meteor.Collection("contacts");
 Contacts.attachSchema(new SimpleSchema({
-  date_created: { type: Date, autoValue: dateCreatedAutoValue },
-  date_modified: { type: Date, autoValue: dateModifiedAutoValue },
+  date_created: { type: Date, autoValue: dateCreatedAutoValue, optional: true },
+  date_modified: { type: Date, autoValue: dateModifiedAutoValue, optional: true },
 
   first_name: { type: String },
   last_name: { type: String },
