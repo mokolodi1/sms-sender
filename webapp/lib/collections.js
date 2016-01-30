@@ -18,10 +18,14 @@ function dateModifiedAutoValue () {
 function lengthOfArray (fieldName) {
   var array = this.field(fieldName).value;
 
+  console.log("array:", array);
+
   if (array) {
     if (typeof array !== "object") {
+      console.log("making array");
       array = [array];
     }
+    console.log("array after:", array);
     return array.length;
   } else {
     this.unset();
@@ -123,7 +127,7 @@ Contacts.attachSchema(new SimpleSchema({
   messages_sent: { type: [Meteor.ObjectID], defaultValue: [], optional: true },
   messages_sent_count: {
     type: Number,
-    autoValue: _.partial(lengthOfArray, "messages_sent"),
+    defaultValue: 0,
     optional: true,
   },
 

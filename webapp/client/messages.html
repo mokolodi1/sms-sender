@@ -67,7 +67,14 @@
             <p class="list-group-item-text">English: {{english_message}}</p>
             <p class="list-group-item-text">Spanish: {{spanish_message}}</p>
             {{#if compare status "sent"}}
-              <p class="list-group-item-text">Sent to {{sent_contacts_count}} contacts</p>
+              <p class="list-group-item-text">
+                Sent to {{sent_contacts_count}}
+                {{#if compare sent_contacts_count 1}}
+                  contact
+                {{else}}
+                  contacts
+                {{/if}}
+              </p>
               {{#if failed_contacts_count}}
                 <p class="list-group-item-text">Sending failed to {{failed_contacts_count}} contacts</p>
               {{/if}}

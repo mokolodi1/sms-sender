@@ -23,11 +23,17 @@ Meteor.startup(function () {
 
 Meteor.methods({
   sendMessages: function (messageId) {
-    console.log("sendMessages");
     this.unblock(); // allow next meteor method to run
 
     // get the message to send
     var message = Messages.findOne(messageId);
+
+    if (message.group) {
+      console.log('Sending messages to contacts in group "' +
+          message.group + '"');
+    } else {
+      console.log("Sending messages to all contacts...");
+    }
 
     var sent_contacts = [];
     var failed_contacts = [];
@@ -39,6 +45,9 @@ Meteor.methods({
       } else {
         messageBody = message.spanish_message;
       }
+
+      console.log('Sending "' + messageBody + ' to ' + contact.name +
+          ' at ' + contact.phone_number);
 
       var deferred = Q.defer();
       twilioClient.sendSms({
