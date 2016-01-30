@@ -17,7 +17,6 @@ function dateModifiedAutoValue () {
 
 function lengthOfArray (fieldName) {
   var array = this.field(fieldName).value;
-  console.log("array:", array);
   if (array) {
     return array.length;
   } else {
@@ -63,7 +62,7 @@ Contacts.attachSchema(new SimpleSchema({
 
   first_name: { type: String },
   last_name: { type: String },
-  phone_number: { type: Number },
+  phone_number: { type: String },
   preferred_language: {
     type: String,
     allowedValues: [

@@ -1,3 +1,5 @@
+Q = Meteor.npmRequire("q");
+
 var twilioClient;
 var fromNumber;
 
@@ -22,13 +24,15 @@ Meteor.startup(function () {
 
 Meteor.methods({
   sendMessages: function (messageId) {
+    console.log("sendMessages");
     this.unblock(); // allow next meteor method to run
 
     // get the message to send
     var message = Messages.findOne(messageId);
 
-    var sent_contacts = ["hello", "second"];
+    var sent_contacts = [];
     var failed_contacts = [];
+    var twilioPromises = [];
     Contacts.find({}).forEach(function (contact) {
       console.log("contact:", contact);
 
@@ -39,6 +43,7 @@ Meteor.methods({
         message = message.spanish_message;
       }
 
+      var deferred = Q.defer();
       twilioClient.sendSms({
         to:"+1 (609) 216-1012",
         from: fromNumber,
@@ -52,14 +57,22 @@ Meteor.methods({
           // console.log(responseData.from);
           // console.log(responseData.body);
         }
+        deferred.resolve();
       });
 
-      Messages.update({
+      twilioPromises.push(deferred.promise);
+    });
+
+    console.log("done starting sending to all contacts");
+    Q.all(twilioPromises).done(Meteor.bindEnvironment(function (values) {
+      Messages.update(messageId, {
         $set: {
           sent_contacts,
-          failed_contacts
+          failed_contacts,
+          status: "sent",
         }
       });
-    });
+      console.log("sent all texts");
+    }));
   },
 });

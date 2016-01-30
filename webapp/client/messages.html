@@ -3,16 +3,10 @@
 
   <h3>Compose message</h3>
   {{#autoForm id="insertMessage" collection=Messages}}
-    {{> afQuickField name="english_message" type="textarea" rows=3
-        placeholder="English message"
-        template="bootstrap3-horizontal"
-        label-class=horizontalLabelClass
-        input-col-class=horizontalInputColClass}}
-    {{> afQuickField name="spanish_message" type="textarea" rows=3
-        placeholder="Spanish message"
-        template="bootstrap3-horizontal"
-        label-class=horizontalLabelClass
-        input-col-class=horizontalInputColClass}}
+    {{> horizontalField name="english_message" type="textarea" rows=3
+        placeholder="English message"}}
+    {{> horizontalField name="spanish_message" type="textarea" rows=3
+        placeholder="Spanish message"}}
     <div class="form-group">
       <button type="submit" onclick="return true;//confirm('Are you sure?')"
           class="btn btn-primary">Send SMS</button>
@@ -38,5 +32,33 @@
     <div class="well">
       Use the form above to send your first SMS!
     </div>
+  {{/if}}
+</template>
+
+<!-- also used in contacts template -->
+<template name="horizontalField">
+  {{! "if options" important becuase if options is specified and is null,
+      it overrides the implied options of the schema}}
+  {{#if options}}
+    {{> afQuickField name=name
+        type=type
+        options=options
+        firstOption=firstOption
+        template="bootstrap3-horizontal"
+        label-class=horizontalLabelClass
+        input-col-class=horizontalInputColClass
+        placeholder=placeholder
+        rows=rows
+        class=class}}
+  {{else}}
+    {{> afQuickField name=name
+        type=type
+        firstOption=firstOption
+        template="bootstrap3-horizontal"
+        label-class=horizontalLabelClass
+        input-col-class=horizontalInputColClass
+        placeholder=placeholder
+        rows=rows
+        class=class}}
   {{/if}}
 </template>

@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "q": {
+      "version": "1.4.1"
+    },
     "twilio": {
       "version": "3.3.0-edge",
       "dependencies": {

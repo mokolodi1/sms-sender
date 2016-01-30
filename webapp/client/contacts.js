@@ -1,0 +1,3 @@
+Template.contacts.helpers({
+  Contacts,
+});
