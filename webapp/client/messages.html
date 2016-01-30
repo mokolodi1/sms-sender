@@ -1,3 +1,42 @@
-<template id="messages">
+<template name="messages">
+  <h1>Messages</h1>
 
+  <h3>Compose message</h3>
+  {{#autoForm id="insertMessage" collection=Messages}}
+    {{> afQuickField name="english_message" type="textarea" rows=3
+        placeholder="English message"
+        template="bootstrap3-horizontal"
+        label-class=horizontalLabelClass
+        input-col-class=horizontalInputColClass}}
+    {{> afQuickField name="spanish_message" type="textarea" rows=3
+        placeholder="Spanish message"
+        template="bootstrap3-horizontal"
+        label-class=horizontalLabelClass
+        input-col-class=horizontalInputColClass}}
+    <div class="form-group">
+      <button type="submit" onclick="return true;//confirm('Are you sure?')"
+          class="btn btn-primary">Send SMS</button>
+      <button type="reset" class="btn btn-default">Reset</button>
+    </div>
+  {{/autoForm}}
+
+  <h3>Past messages</h3>
+  {{#if length getMessages}}
+    <div class="list-group">
+      {{#each getMessages}}
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">
+            {{fromNow}}
+            <span class="badge pull-right">{{status}}</span>
+          </h4>
+          <p class="list-group-item-text">English: {{english_message}}</p>
+          <p class="list-group-item-text">Spanish: {{spanish_message}}</p>
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <div class="well">
+      Use the form above to send your first SMS!
+    </div>
+  {{/if}}
 </template>

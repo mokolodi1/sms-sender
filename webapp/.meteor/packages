@@ -16,7 +16,22 @@ standard-minifiers      # JS/CSS minifiers run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 
-autopublish             # Publish all data to the clients (for prototyping)
 insecure                # Allow all DB writes from clients (for prototyping)
 twbs:bootstrap
 kadira:flow-router
+kadira:blaze-layout
+arillo:flow-router-helpers
+
+sacha:spin
+accounts-password
+accounts-ui
+aldeed:simple-schema
+aldeed:collection2
+aldeed:autoform
+autopublish
+mokolodi1:helpers
+momentjs:moment
+meteorhacks:npm
+
+
+npm-container

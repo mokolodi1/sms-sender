@@ -1,0 +1,12 @@
+.down-from-navbar {
+  margin-top: 15px;
+}
+
+#login-buttons {
+  padding: 17px 5px 17px 15px;
+}
+
+#login-dropdown-list {
+  position: relative;
+  padding-bottom: 20px;
+}
