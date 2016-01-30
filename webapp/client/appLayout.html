@@ -30,20 +30,21 @@
           </li>
         </ul>
 
-        <ul class="nav navbar-nav navbar-right">
+        <!-- NOTE: we can add login later (I don't think we need it...) -->
+        <!-- <ul class="nav navbar-nav navbar-right">
           <li>
             {{> loginButtons}}
           </li>
-        </ul>
+        </ul> -->
       </div><!-- /.navbar-collapse -->
     </div>
   </nav>
 
   <div class="container-fluid" style="margin-top: 50px;">
-    {{#if currentUser}}
-      <div id="logged-in">
+    <!-- {{#if currentUser}}
+      <div id="logged-in"> -->
         {{>Template.dynamic template=content}}
-      </div>
+      <!-- </div>
     {{else}}
       {{#if loggingIn}}
         <div class="jumbotron down-from-navbar">
@@ -60,6 +61,6 @@
           </p>
         </div>
       {{/if}}
-    {{/if}}
+    {{/if}} -->
   </div>
 </template>

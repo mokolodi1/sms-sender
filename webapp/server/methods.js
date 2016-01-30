@@ -7,7 +7,6 @@ Meteor.startup(function () {
   // authenticate with Twilio
   var authSid;
   var authToken;
-  var fromNumber;
   if (Meteor.settings.testing) {
     authSid = Assets.getText("test_twilio_sid");
     authToken = Assets.getText("test_twilio_token");
@@ -36,20 +35,24 @@ Meteor.methods({
     Contacts.find({}).forEach(function (contact) {
       console.log("contact:", contact);
 
-      var message;
-      if (contact.preferred_language === "english") {
-        message = message.english_message;
+      var messageBody;
+      if (contact.preferred_language === "English") {
+        messageBody = message.english_message;
       } else {
-        message = message.spanish_message;
+        messageBody = message.spanish_message;
       }
 
       var deferred = Q.defer();
+      // console.log("contact.phone_number:", contact.phone_number);
+      // console.log("fromNumber:", fromNumber);
+      // console.log("messageBody:", messageBody);
       twilioClient.sendSms({
-        to:"+1 (609) 216-1012",
+        to: contact.phone_number,
         from: fromNumber,
-        body: message,
+        body: messageBody,
       }, function(err, responseData) {
         if (err) {
+          console.log("err:", err);
           failed_contacts.push(contact._id);
         } else {
           sent_contacts.push(contact._id);

@@ -16,6 +16,9 @@ Template.messages.helpers({
     return moment(this.date_created).fromNow();
   },
   Messages: Messages,
+  contactsCount: function () {
+    return Contacts.find({}).count();
+  },
 });
 
 AutoForm.hooks({

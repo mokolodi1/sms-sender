@@ -55,6 +55,16 @@ Messages.attachSchema(new SimpleSchema({
   },
 }));
 
+SimpleSchema.messages({
+  "invalidPhoneNumber": "Invalid phone number",
+  wrongCountryCode: "Only US numbers (+1) are supported",
+});
+
+function getNumbers (uglyText) {
+  return uglyText.replace(/\D/g, "");
+
+}
+
 Contacts = new Meteor.Collection("contacts");
 Contacts.attachSchema(new SimpleSchema({
   date_created: { type: Date, autoValue: dateCreatedAutoValue, optional: true },
@@ -62,12 +72,45 @@ Contacts.attachSchema(new SimpleSchema({
 
   first_name: { type: String },
   last_name: { type: String },
-  phone_number: { type: String },
+  phone_number: {
+    type: String,
+    custom: function () {
+      console.log("this.value:", this.value);
+      var onlyNumbers = getNumbers(this.value);
+      console.log("onlyNumbers:", onlyNumbers);
+      if (onlyNumbers.length === 11) {
+        if (onlyNumbers[0] !== "1") {
+          return "wrongCountryCode";
+        }
+        // okay
+      } else if (onlyNumbers.length !== 10) {
+        return "invalidPhoneNumber";
+      }
+    },
+    autoValue: function () {
+      if (this.isSet) {
+        var onlyNumbers = getNumbers(this.value);
+        if (onlyNumbers.length === 11) {
+          if (onlyNumbers[0] === "1") {
+            onlyNumbers = onlyNumbers.slice(1);
+          } else {
+            return onlyNumbers; // error will be picked up in custom validation
+          }
+        }
+
+        var areaCode = onlyNumbers.slice(0, 3);
+        var secondThree = onlyNumbers.slice(3, 6);
+        var lastThree = onlyNumbers.slice(6, 10);
+        console.log("areaCode, secondThree, lastThree:", areaCode, secondThree, lastThree);
+        return "+1 (" + areaCode + ") " + secondThree + "-" + lastThree;
+      }
+    },
+  },
   preferred_language: {
     type: String,
     allowedValues: [
-      "english",
-      "spanish",
+      "English",
+      "Spanish",
     ]
   },
 }));

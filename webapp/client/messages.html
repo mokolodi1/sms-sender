@@ -1,18 +1,33 @@
 <template name="messages">
   <h1>Messages</h1>
 
-  <h3>Compose message</h3>
-  {{#autoForm id="insertMessage" collection=Messages}}
-    {{> horizontalField name="english_message" type="textarea" rows=3
-        placeholder="English message"}}
-    {{> horizontalField name="spanish_message" type="textarea" rows=3
-        placeholder="Spanish message"}}
-    <div class="form-group">
-      <button type="submit" onclick="return true;//confirm('Are you sure?')"
-          class="btn btn-primary">Send SMS</button>
-      <button type="reset" class="btn btn-default">Reset</button>
+  <h3>Compose</h3>
+  {{#if contactsCount}}
+    {{#autoForm id="insertMessage" collection=Messages}}
+      {{> horizontalField name="english_message" type="textarea" rows=3
+          placeholder="English message"}}
+      {{> horizontalField name="spanish_message" type="textarea" rows=3
+          placeholder="Spanish message"}}
+
+      <div class="form-group">
+        <button type="submit" onclick="return true;//confirm('Are you sure?')"
+            class="btn btn-primary">
+            Send SMS to {{contactsCount}}
+            {{#if compare contactsCount 1}}
+              contact
+            {{else}}
+              contacts
+            {{/if}}
+          </button>
+        <button type="reset" class="btn btn-default">Reset</button>
+      </div>
+    {{/autoForm}}
+  {{else}}
+    <div class="alert alert-info" style="display: inline-block;">
+      You have to have at least one contact registered before sending messages.
+      <a href="{{pathFor "contacts"}}" class="btn btn-primary">Add contacts</a>
     </div>
-  {{/autoForm}}
+  {{/if}}
 
   <h3>Past messages</h3>
   {{#if length getMessages}}

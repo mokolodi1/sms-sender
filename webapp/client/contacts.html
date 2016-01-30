@@ -1,15 +1,23 @@
 <template name="contacts">
-  <h1>Conctacts</h1>
+  <h1>Contacts</h1>
 
-  <h3>Insert</h3>
-  {{#autoForm id="insertMessage" collection=Contacts}}
+  <h3>Create new</h3>
+  {{#autoForm id="insertMessage" type="insert" collection=Contacts}}
     {{> horizontalField name="first_name"}}
     {{> horizontalField name="last_name"}}
-    {{> horizontalField name="phone_number" class="input-medium bfh-phone"}}
+    {{> horizontalField name="phone_number"}}
+    {{> horizontalField name="preferred_language" options="allowed"
+        firstOption="(Select a preferred language)"}}
     <div class="form-group">
       <button type="submit" onclick="return true;//confirm('Are you sure?')"
           class="btn btn-primary">Add contact</button>
       <button type="reset" class="btn btn-default">Reset</button>
     </div>
   {{/autoForm}}
+
+  <h3>Registered contacts</h3>
+  {{#each getContacts}}
+
+  {{/each}}
+
 </template>
