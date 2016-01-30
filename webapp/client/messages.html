@@ -1,53 +1,78 @@
 <template name="messages">
   <h1>Messages</h1>
 
-  <h3>Compose</h3>
-  {{#if contactsCount}}
-    {{#autoForm id="insertMessage" collection=Messages}}
-      {{> horizontalField name="english_message" type="textarea" rows=3
-          placeholder="English message"}}
-      {{> horizontalField name="spanish_message" type="textarea" rows=3
-          placeholder="Spanish message"}}
+  <div>
+    <h3>Compose new message</h3>
+    {{#if allContacts}}
+      {{#autoForm id="insertMessage" collection=Messages}}
+        {{> horizontalField name="english_message" type="textarea" rows=2
+            placeholder="English message"}}
+        {{> horizontalField name="spanish_message" type="textarea" rows=2
+            placeholder="Spanish message"}}
 
-      <div class="form-group">
-        <button type="submit" onclick="return true;//confirm('Are you sure?')"
-            class="btn btn-primary">
-            Send SMS to {{contactsCount}}
-            {{#if compare contactsCount 1}}
-              contact
-            {{else}}
-              contacts
-            {{/if}}
-          </button>
-        <button type="reset" class="btn btn-default">Reset</button>
+        {{#if length filteredContacts}}
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                Send SMS to {{length filteredContacts}}
+                {{#if compare (length filteredContacts) 1}}
+                  contact
+                {{else}}
+                  contacts
+                {{/if}}
+              </button>
+            <button type="reset" class="btn btn-default">Reset form</button>
+          </div>
+        {{else}}
+          <div class="alert alert-info" style="display: inline-block;">
+            <p>
+              No contacts match the filter criteria.
+              If no tags are selected, maybe no contacts have notifications enabled.
+            </p>
+            <p>
+              <a href="{{pathFor "contacts"}}" class="btn btn-primary">Manage contacts</a>
+            </p>
+          </div>
+        {{/if}}
+      {{/autoForm}}
+    {{else}}
+      <div class="alert alert-info" style="display: inline-block;">
+        <p>
+          You have to have at least one contact registered before sending messages.
+        </p>
+        <p>
+          <a href="{{pathFor "contacts"}}" class="btn btn-primary">Add contacts</a>
+        </p>
       </div>
-    {{/autoForm}}
-  {{else}}
-    <div class="alert alert-info" style="display: inline-block;">
-      You have to have at least one contact registered before sending messages.
-      <a href="{{pathFor "contacts"}}" class="btn btn-primary">Add contacts</a>
-    </div>
-  {{/if}}
+    {{/if}}
+  </div>
 
-  <h3>Past messages</h3>
-  {{#if length getMessages}}
-    <div class="list-group">
-      {{#each getMessages}}
-        <div class="list-group-item">
-          <h4 class="list-group-item-heading">
-            {{fromNow}}
-            <span class="badge pull-right">{{status}}</span>
-          </h4>
-          <p class="list-group-item-text">English: {{english_message}}</p>
-          <p class="list-group-item-text">Spanish: {{spanish_message}}</p>
-        </div>
-      {{/each}}
-    </div>
-  {{else}}
-    <div class="well">
-      Use the form above to send your first SMS!
-    </div>
-  {{/if}}
+  <div>
+    <h3>Past messages</h3>
+    {{#if length getMessages}}
+      <div class="list-group">
+        {{#each getMessages}}
+          <div class="list-group-item {{listGroupItemClass}}">
+            <h4 class="list-group-item-heading">
+              {{fromNow}}
+              <span class="badge pull-right">{{status}}</span>
+            </h4>
+            <p class="list-group-item-text">English: {{english_message}}</p>
+            <p class="list-group-item-text">Spanish: {{spanish_message}}</p>
+            {{#if compare status "sent"}}
+              <p class="list-group-item-text">Sent to {{sent_contacts_count}} contacts</p>
+              {{#if failed_contacts_count}}
+                <p class="list-group-item-text">Sending failed to {{failed_contacts_count}} contacts</p>
+              {{/if}}
+            {{/if}}
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="well">
+        Use the form above to send your first SMS!
+      </div>
+    {{/if}}
+  </div>
 </template>
 
 <!-- also used in contacts template -->
@@ -60,8 +85,6 @@
         options=options
         firstOption=firstOption
         template="bootstrap3-horizontal"
-        label-class=horizontalLabelClass
-        input-col-class=horizontalInputColClass
         placeholder=placeholder
         rows=rows
         class=class}}
@@ -70,10 +93,17 @@
         type=type
         firstOption=firstOption
         template="bootstrap3-horizontal"
+        placeholder=placeholder
+        rows=rows
+        class=class}}
+    <!-- {{> afQuickField name=name
+        type=type
+        firstOption=firstOption
+        template="bootstrap3-horizontal"
         label-class=horizontalLabelClass
         input-col-class=horizontalInputColClass
         placeholder=placeholder
         rows=rows
-        class=class}}
+        class=class}} -->
   {{/if}}
 </template>

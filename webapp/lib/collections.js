@@ -28,6 +28,7 @@ Messages = new Meteor.Collection("messages");
 Messages.attachSchema(new SimpleSchema({
   english_message: { type: String },
   spanish_message: { type: String },
+  tag: { type: String, optional: true },
 
   date_created: { type: Date, autoValue: dateCreatedAutoValue },
 
@@ -70,8 +71,7 @@ Contacts.attachSchema(new SimpleSchema({
   date_created: { type: Date, autoValue: dateCreatedAutoValue, optional: true },
   date_modified: { type: Date, autoValue: dateModifiedAutoValue, optional: true },
 
-  first_name: { type: String },
-  last_name: { type: String },
+  name: { type: String },
   phone_number: {
     type: String,
     custom: function () {
@@ -113,4 +113,23 @@ Contacts.attachSchema(new SimpleSchema({
       "Spanish",
     ]
   },
+  tags: {
+    type: [String],
+    defaultValue: [],
+    optional: true,
+  },
+
+  messages_sent: { type: [Meteor.ObjectID], defaultValue: [], optional: true },
+  messages_sent_count: {
+    type: Number,
+    autoValue: _.partial(lengthOfArray, "messages_sent"),
+    optional: true,
+  },
+
+  notifications_active: { type: Boolean, defaultValue: true, optional: true },
+}));
+
+Tags = new Meteor.Collection("tags");
+Tags.attachSchema(new SimpleSchema({
+  name: { type: String },
 }));

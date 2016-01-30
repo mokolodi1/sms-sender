@@ -1,0 +1,27 @@
+<template name="tags">
+  <h1>Tags</h1>
+
+  <h3>Create a tag</h3>
+  {{#autoForm id="createTag" type="insert" collection=Tags}}
+    {{> horizontalField name="name"}}
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Add tag</button>
+      <button type="reset" class="btn btn-default">Reset form</button>
+    </div>
+  {{/autoForm}}
+
+  <h3>Tags</h3>
+  {{#if length getTags}}
+    <div class="list-group">
+      {{#each getTags}}
+        <div class="list-group-item">
+          {{name}}
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <div class="well">
+      No tags have been created.
+    </div>
+  {{/if}}
+</template>

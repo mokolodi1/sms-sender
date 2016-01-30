@@ -16,8 +16,18 @@ Template.messages.helpers({
     return moment(this.date_created).fromNow();
   },
   Messages: Messages,
-  contactsCount: function () {
-    return Contacts.find({}).count();
+  allContacts: function () {
+    return Contacts.find({});
+  },
+  filteredContacts: function () {
+    return filteredContacts();
+  },
+  listGroupItemClass: function () {
+    if (this.status === "sent") {
+      return "list-group-item-success";
+    } else {
+      return "list-group-item-info";
+    }
   },
 });
 

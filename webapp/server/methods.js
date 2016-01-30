@@ -43,9 +43,6 @@ Meteor.methods({
       }
 
       var deferred = Q.defer();
-      // console.log("contact.phone_number:", contact.phone_number);
-      // console.log("fromNumber:", fromNumber);
-      // console.log("messageBody:", messageBody);
       twilioClient.sendSms({
         to: contact.phone_number,
         from: fromNumber,
@@ -74,6 +71,14 @@ Meteor.methods({
           failed_contacts,
           status: "sent",
         }
+      });
+
+      _.each(sent_contacts, function (contactId) {
+        Contacts.update(contactId, {
+          $addToSet: {
+            messages_sent: messageId
+          }
+        });
       });
       console.log("sent all texts");
     }));

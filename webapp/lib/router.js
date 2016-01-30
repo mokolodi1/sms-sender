@@ -1,6 +1,6 @@
 FlowRouter.notFound = {
   action: function () {
-    BlazeLayout.render("appBody", {content: "pageNotFound"});
+    BlazeLayout.render("appLayout", {content: "pageNotFound"});
   }
 };
 
@@ -22,5 +22,12 @@ FlowRouter.route("/contacts", {
   name: "contacts",
   action: function() {
     BlazeLayout.render("appLayout", {content: "contacts"});
+  }
+});
+
+FlowRouter.route("/tags", {
+  name: "tags",
+  action: function() {
+    BlazeLayout.render("appLayout", {content: "tags"});
   }
 });

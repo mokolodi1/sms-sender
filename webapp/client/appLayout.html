@@ -1,3 +1,7 @@
+<head>
+  <title>SMS Sender</title>
+</head>
+
 <template name="appLayout">
   {{! other option: navbar-static-top}}
   <nav class="navbar navbar-default navbar-fixed-top">
@@ -26,6 +30,11 @@
           <li class="{{isActiveRoute "contacts"}}">
             <a href="{{pathFor "contacts"}}">
               Contacts
+            </a>
+          </li>
+          <li class="{{isActiveRoute "tags"}}">
+            <a href="{{pathFor "tags"}}">
+              Tags
             </a>
           </li>
         </ul>

@@ -3,21 +3,50 @@
 
   <h3>Create new</h3>
   {{#autoForm id="insertMessage" type="insert" collection=Contacts}}
-    {{> horizontalField name="first_name"}}
-    {{> horizontalField name="last_name"}}
+    {{> horizontalField name="name"}}
     {{> horizontalField name="phone_number"}}
     {{> horizontalField name="preferred_language" options="allowed"
         firstOption="(Select a preferred language)"}}
     <div class="form-group">
       <button type="submit" onclick="return true;//confirm('Are you sure?')"
           class="btn btn-primary">Add contact</button>
-      <button type="reset" class="btn btn-default">Reset</button>
+      <button type="reset" class="btn btn-default">Reset form</button>
     </div>
   {{/autoForm}}
 
   <h3>Registered contacts</h3>
-  {{#each getContacts}}
+  {{#if length getContacts}}
+    <div class="list-group">
+      {{#each getContacts}}
+        {{> showContact}}
+      {{/each}}
+    </div>
+  {{else}}
+    <div class="well">
+      No contacts have been created.
+    </div>
+  {{/if}}
+</template>
 
-  {{/each}}
-
+<template name="showContact">
+  <div class="list-group-item {{listGroupItemClass}}">
+    <h4 class="list-group-item-heading">
+      {{name}}
+      <span class="pull-right">
+        {{#if notifications_active}}
+          <button class="notifications-toggle btn btn-xs btn-warning">
+            <span class="glyphicon glyphicon-volume-up"></span>
+          </button>
+        {{else}}
+          <button class="notifications-toggle btn btn-xs btn-warning">
+            <span class="glyphicon glyphicon-volume-off"></span>
+            <span>Muted</span>
+          </button>
+        {{/if}}
+      </span>
+    </h4>
+    <p class="list-group-item-text">Phone number: {{phone_number}}</p>
+    <p class="list-group-item-text">Preferred language: {{preferred_language}}</p>
+    <p class="list-group-item-text">Messages sent: {{messages_sent_count}}</p>
+  </div>
 </template>
