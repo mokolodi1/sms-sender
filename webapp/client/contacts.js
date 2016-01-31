@@ -68,7 +68,7 @@ Template.showContact.events({
     // !!! means the opposite but boolean
     Contacts.update(instance.data._id, {
       $set: {
-        notifications_active: !!!instance.data.notifications_active
+        notifications_active: !instance.data.notifications_active
       }
     });
   },
