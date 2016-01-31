@@ -4,6 +4,9 @@
   <h3>Create new</h3>
   {{#autoForm id="insertMessage" type="insert" collection=Contacts}}
     {{> contactFields}}
+    <p class="help-block">
+      Add the contact and then edit it to add groups.
+    </p>
     <div class="form-group">
       <button type="submit" onclick="return true;//confirm('Are you sure?')"
           class="btn btn-primary">Add contact</button>
@@ -53,10 +56,10 @@
         </button>
         <button class="notifications-toggle btn btn-xs btn-warning">
           {{#if notifications_active}}
-            <span class="glyphicon glyphicon-volume-up"></span>
+            <span class="glyphicon glyphicon-ok-sign"></span>
             <span>Notifications on</span>
           {{else}}
-            <span class="glyphicon glyphicon-volume-off"></span>
+            <span class="glyphicon glyphicon-ban-circle"></span>
             <span>Notifications off</span>
           {{/if}}
         </button>
@@ -74,6 +77,26 @@
     </h4>
     <p class="list-group-item-text">Phone number: {{phone_number}}</p>
     <p class="list-group-item-text">Preferred language: {{preferred_language}}</p>
+    <p class="list-group-item-text">
+      Groups:
+      {{#if length groups}}
+
+        {{#each groups}}
+          {{#if editing}}
+            <span class="btn btn-xs btn-default remove-group" data-value="{{this}}">
+              <span class="glyphicon glyphicon-remove"></span>
+              {{this}}
+            </span>
+          {{else}}
+            <span class="like-a-button">
+              {{this}}
+            </span>
+          {{/if}}
+        {{/each}}
+      {{else}}
+        none
+      {{/if}}
+    </p>
     <p class="list-group-item-text">Messages sent: {{messages_sent_count}}</p>
 
     {{#if editing}}
@@ -82,6 +105,41 @@
           doc=this autosave=true}}
         {{> contactFields}}
       {{/autoForm}}
+
+      {{#if length getGroups}}
+        {{#if length getNewGroups}}
+          <div style="display: flex;">
+            <div class="col-xs-8" style="padding-left: 0px;">
+              <div class="form-group">
+                <label class="control-label">Name</label>
+                <select class="form-control new-group" name="groups">
+                  {{#each getNewGroups}}
+                    <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                </select>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <div class="form-group">
+                <label class="control-label">Add to group</label>
+                <br>
+                <div class="add-new-group btn btn-default">
+                  Add
+                </div>
+              </div>
+            </div>
+          </div>
+        {{else}}
+          <div class="well">
+            The contact is already in all available groups.
+          </div>
+        {{/if}}
+      {{else}}
+        <div class="well">
+          No groups exist yet to put the contact into.
+        </div>
+      {{/if}}
     {{/if}}
   </div>
 </template>

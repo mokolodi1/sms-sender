@@ -54,7 +54,14 @@ Template.showContact.helpers({
   },
   errorsEditing: function () {
     return Template.instance().errorsEditing.get();
-  }
+  },
+  getGroups: function () {
+    return Groups.find({});
+  },
+  getNewGroups: function () {
+    return _.difference(_.pluck(Groups.find().fetch(), "name"),
+        this.groups);
+  },
 });
 
 Template.showContact.events({
@@ -92,5 +99,22 @@ Template.showContact.events({
         });
       });
     }
+  },
+  "click .add-new-group": function (event, instance) {
+    Contacts.update(instance.data._id, {
+      $addToSet: {
+        groups: instance.$("select.new-group")[0].value
+      }
+    });
+  },
+  "click .remove-group": function (event, instance) {
+    console.log("event.target.dataset.value:", event.target.dataset.value);
+    console.log("event:", event);
+    console.log("instance.data._id:", instance.data._id);
+    Contacts.update(instance.data._id, {
+      $pull: {
+        groups: event.target.dataset.value
+      }
+    });
   },
 });
