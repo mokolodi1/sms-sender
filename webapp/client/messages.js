@@ -46,15 +46,7 @@ AutoForm.hooks({
         status: "sending",
       }));
 
-      Meteor.call("sendMessages", newId, function (error, result) {
-        console.log("error, result:", error, result);
-        // if (error) {
-        //   this.done(new Error("Couldn't send email"));
-        //   return true;
-        // }
-        //
-        // return false;
-      });
+      Meteor.call("sendMessages", newId, _.noop);
 
       this.done();
       return false;
