@@ -66,6 +66,13 @@
             </h4>
             <p class="list-group-item-text">English: {{english_message}}</p>
             <p class="list-group-item-text">Spanish: {{spanish_message}}</p>
+            <p class="list-group-item-text">
+              {{#if group}}
+                Group: {{group}}
+              {{else}}
+                Group: none (sent to all contacts)
+              {{/if}}
+            </p>
             {{#if compare status "sent"}}
               <p class="list-group-item-text">
                 Sent to {{sent_contacts_count}}
