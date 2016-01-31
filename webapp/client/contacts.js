@@ -62,7 +62,13 @@ Template.showContact.events({
     var editing = Template.instance().editing;
 
     editing.set(!editing.get());
-    Template.instance().errorsEditing.set(false);
+    if (editing.get()) {
+      Template.instance().errorsEditing.set(false);
+      // so that the autoform has already shown up
+      Meteor.defer(function () {
+        AutoForm.validateForm(instance.data._id);
+      });
+    }
   },
   "click .notifications-toggle": function (event, instance) {
     // !!! means the opposite but boolean

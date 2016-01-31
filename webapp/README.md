@@ -14,9 +14,7 @@ After talking with the representative, she mentioned that many clients prefer Sp
 
 SMSr allows an organization such as the CRLA to send bilingual SMS notifications to groups of contacts. It has a built-in contact manager and group manager.
 
-SMSr has been created specifically for
-
-While SMSr currently only supports English and Spanish language messages, SMSr can easily be extended for other languages. 
+While SMSr currently only supports English and Spanish language notifications, SMSr can easily be extended for other languages.
 
 ## How we built it
 
